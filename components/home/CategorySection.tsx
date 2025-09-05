@@ -3,24 +3,24 @@ import CategoryCard from './CategoryCard'
 
 const categoryList = [
   {
-    name: "Coconut Oil",
-    icon: "/cold_pressed_coconut_oil.webp",
-    alt: "Coconut Oil"
+    name: "Oils & Extracts",
+    icon: "/Oil_Extracts.svg",
+    alt: "Oils & Extracts"
   },
   {
-    name: "Coconut Bowls",
-    icon: "/coconut_bowl.jpg",
-    alt: "Coconut Bowls"
+    name: "Kitchenware",
+    icon: "/Kitchenware.svg",
+    alt: "Kitchenware"
   },
   {
-    name: "Coconut Chips",
-    icon: "/coconut_chips.jpg",
-    alt: "Coconut Chips"
+    name: "Snacks",
+    icon: "/Snacks.svg",
+    alt: "Snacks"
   },
   {
-    name: "Coconut Soap",
-    icon: "/coconut_soap.jpg",
-    alt: "Coconut Soap"
+    name: "Personal Care",
+    icon: "/Personal_Care.svg",
+    alt: "Personal Care"
   }
 ];
 
