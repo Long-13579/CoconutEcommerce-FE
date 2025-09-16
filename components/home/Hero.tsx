@@ -12,12 +12,16 @@ const Hero = () => {
   Explore a curated selection of premium coconut-based products for your lifestyle.
         your lifestyle.
       </p>
-      <a
-        href="#product_section"
+      <button
+        type="button"
         className="inline-block bg-black text-white text-lg font-semibold px-8 py-3 rounded-xl shadow-lg hover:bg-gray-900 transition-all duration-300"
+        onClick={() => {
+          const el = document.getElementById("product_section");
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }}
       >
-  Shop Coconut
-      </a>
+        Shop Coconut
+      </button>
     </div>
   </section>
   )

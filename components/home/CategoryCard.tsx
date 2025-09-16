@@ -1,15 +1,21 @@
 import React from 'react'
 import Image from "next/image"
+import Link from "next/link"
 
 interface CategoryCardProps {
   name: string;
   icon: string;
   alt: string;
+  selected?: boolean;
+  onClick?: () => void;
 }
 
-const CategoryCard = ({ name, icon, alt }: CategoryCardProps) => {
+const CategoryCard = ({ name, icon, alt, selected, onClick }: CategoryCardProps) => {
   return (
-    <div className="w-[220px] h-[120px] bg-white rounded-2xl flex flex-col items-center justify-center p-4 shadow-lg transition-transform duration-200 hover:scale-105 cursor-pointer">
+    <div
+      className={`w-[220px] h-[120px] bg-white rounded-2xl flex flex-col items-center justify-center p-4 shadow-lg transition-transform duration-200 hover:scale-105 cursor-pointer border-2 ${selected ? 'border-blue-500' : 'border-transparent'}`}
+      onClick={onClick}
+    >
       {/* Category Icon */}
       <div className="bg-gray-100 p-3 rounded-full">
         <Image src={icon} alt={alt} width={40} height={40} />

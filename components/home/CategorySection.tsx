@@ -24,7 +24,12 @@ const categoryList = [
   }
 ];
 
-const CategorySection = () => {
+interface Props {
+  selectedCategory: string | null;
+  setSelectedCategory: (cat: string | null) => void;
+}
+
+const CategorySection = ({ selectedCategory, setSelectedCategory }: Props) => {
   return (
     <section className="main-max-width padding-x mx-auto">
       <h2 className="my-9 text-center text-xl font-bold text-gray-800">
@@ -34,7 +39,14 @@ const CategorySection = () => {
       {/* Content */}
       <div className="flex justify-center flex-wrap gap-8">
         {categoryList.map((cat, idx) => (
-          <CategoryCard key={idx} name={cat.name} icon={cat.icon} alt={cat.alt} />
+          <CategoryCard
+            key={idx}
+            name={cat.name}
+            icon={cat.icon}
+            alt={cat.alt}
+            selected={selectedCategory === cat.name}
+            onClick={() => setSelectedCategory(selectedCategory === cat.name ? null : cat.name)}
+          />
         ))}
       </div>
     </section>
