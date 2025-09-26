@@ -23,12 +23,15 @@ const ProductSection = ({ title, selectedCategory }: Props) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let interval: NodeJS.Timeout;
     async function loadProducts() {
       const data = await fetchProducts();
       setProducts(data || []);
       setLoading(false);
     }
     loadProducts();
+  interval = setInterval(loadProducts, 2000); // fetch lại mỗi 2 giây
+    return () => clearInterval(interval);
   }, []);
 
   // Nếu có selectedCategory, lọc theo category (giả sử product có trường category)
