@@ -14,9 +14,11 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const router = useRouter();
-  // Chuyển giá sang USD, đảm bảo price là số
-  const priceVND = typeof product.price === "string" ? parseFloat(product.price) : product.price;
-  const priceUSD = priceVND ? (priceVND / 26000).toFixed(2) : "0.00";
+  // Debug giá tiền truyền vào
+  console.log('ProductCard price:', product.price);
+    // Hiển thị giá tiền đúng kiểu $9.00
+    const priceValue = typeof product.price === "string" ? parseFloat(product.price) : product.price;
+    const priceDisplay = priceValue ? `$${priceValue.toFixed(2)}` : "$0.00";
   // Xử lý hình ảnh: nếu là đường dẫn tương đối, ghép với domain backend
   let imageSrc = "/default.jpg";
   if (product.image) {
@@ -31,7 +33,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     >
       <Image src={imageSrc} alt={product.name} width={120} height={120} />
       <p className="font-semibold mt-3 text-gray-800">{product.name}</p>
-      <p className="text-blue-600 font-bold mt-2">${priceUSD} USD</p>
+        <p className="text-blue-600 font-bold mt-2">{priceDisplay}</p>
     </div>
   );
 };
