@@ -1,58 +1,62 @@
-import React from "react";
-import ProductCard, { productList } from "./ProductCard";
+"use client";
+import React, { useEffect, useState } from "react";
+import ProductCard from "./ProductCard";
+import { fetchProducts } from "../../service/ProductService";
 
-interface Props{
+interface Product {
+  id: number;
+  name: string;
+  slug: string;
+  image: string;
+  price: string | number;
+  category?: string;
+  category_id?: number;
+}
+
+interface Props {
   title: string;
   selectedCategory?: string | null;
 }
 
-const categoryMap: Record<string, string[]> = {
-  "Oils & Extracts": [
-    "Cold-Pressed Coconut Oil",
-    "Virgin Coconut Oil",
-    "Refined Coconut Oil",
-    "Coconut Butter",
-    "Coconut Extract"
-  ],
-  "Kitchenware": [
-    "Coconut Bowl",
-    "Coconut Cups",
-    "Coconut Cutlery",
-    "Coconut Serving Trays",
-    "Coconut Candle Holders"
-  ],
-  "Snacks": [
-    "Coconut Chips",
-    "Toasted Coconut Chips",
-    "Coconut Candy",
-    "Coconut Cookies",
-    "Coconut Granola"
-  ],
-  "Personal Care": [
-    "Coconut Soap",
-    "Coconut Shampoo",
-    "Coconut Body Lotion",
-    "Coconut Lip Balm",
-    "Coconut Face Scrub"
-  ]
-};
+const ProductSection = ({ title, selectedCategory }: Props) => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-const ProductSection = ({title, selectedCategory}: Props) => {
-  let filteredList = productList;
-  if (selectedCategory && categoryMap[selectedCategory]) {
-    const names = categoryMap[selectedCategory];
-    filteredList = productList.filter(p => names.includes(p.name));
-  }
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    async function loadProducts() {
+      const data = await fetchProducts();
+      setProducts(data || []);
+      setLoading(false);
+    }
+    loadProducts();
+  interval = setInterval(loadProducts, 2000); // fetch lại mỗi 2 giây
+    return () => clearInterval(interval);
+  }, []);
+
+  // Nếu có selectedCategory, lọc theo category (giả sử product có trường category)
+  // Giả sử selectedCategory là category id hoặc name, ưu tiên id nếu có
+  const filteredList = selectedCategory
+    ? products.filter((p) => {
+        if (p.category_id && typeof selectedCategory === "number") {
+          return p.category_id === selectedCategory;
+        }
+        if (p.category && typeof selectedCategory === "string") {
+          return p.category === selectedCategory;
+        }
+        return true;
+      })
+    : products;
+
+  if (loading) return <div>Đang tải sản phẩm...</div>;
   return (
     <section id="product_section" className="main-max-width padding-x mx-auto my-16">
       <h2 className="my-9 text-center text-xl font-bold text-gray-800">
         {title}
       </h2>
-
-      {/* Content */}
       <div className="flex-center flex-wrap gap-4">
-        {filteredList.map((_, idx) => (
-          <ProductCard key={idx} index={productList.indexOf(_)} />
+        {filteredList.map((product) => (
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </section>

@@ -1,28 +1,6 @@
-import React from 'react'
-import CategoryCard from './CategoryCard'
-
-const categoryList = [
-  {
-    name: "Oils & Extracts",
-    icon: "/Oil_Extracts.svg",
-    alt: "Oils & Extracts"
-  },
-  {
-    name: "Kitchenware",
-    icon: "/Kitchenware.svg",
-    alt: "Kitchenware"
-  },
-  {
-    name: "Snacks",
-    icon: "/Snacks.svg",
-    alt: "Snacks"
-  },
-  {
-    name: "Personal Care",
-    icon: "/Personal_Care.svg",
-    alt: "Personal Care"
-  }
-];
+import React, { useEffect, useState } from 'react';
+import CategoryCard from './CategoryCard';
+import { fetchCategories } from '../../service/CategoryService';
 
 interface Props {
   selectedCategory: string | null;
@@ -30,27 +8,46 @@ interface Props {
 }
 
 const CategorySection = ({ selectedCategory, setSelectedCategory }: Props) => {
+  const [categories, setCategories] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadCategories() {
+      const data = await fetchCategories();
+      setCategories(data || []);
+      setLoading(false);
+    }
+    loadCategories();
+  }, []);
+
+  if (loading) return <div>Đang tải danh mục...</div>;
   return (
     <section className="main-max-width padding-x mx-auto">
       <h2 className="my-9 text-center text-xl font-bold text-gray-800">
         Browse By Category
       </h2>
-
-      {/* Content */}
       <div className="flex justify-center flex-wrap gap-8">
-        {categoryList.map((cat, idx) => (
-          <CategoryCard
-            key={idx}
-            name={cat.name}
-            icon={cat.icon}
-            alt={cat.alt}
-            selected={selectedCategory === cat.name}
-            onClick={() => setSelectedCategory(selectedCategory === cat.name ? null : cat.name)}
-          />
-        ))}
+        {categories.map((cat, idx) => {
+          let iconSrc = "/default.svg";
+          if (cat.image) {
+            iconSrc = cat.image.startsWith("http")
+              ? cat.image
+              : `http://localhost:8000${cat.image}`;
+          }
+          return (
+            <CategoryCard
+              key={idx}
+              name={cat.name}
+              icon={iconSrc}
+              alt={cat.name}
+              selected={selectedCategory === cat.name}
+              onClick={() => setSelectedCategory(selectedCategory === cat.name ? null : cat.name)}
+            />
+          );
+        })}
       </div>
     </section>
-  )
+  );
 }
 
 export default CategorySection
