@@ -1,4 +1,5 @@
 // Service fetch dữ liệu product từ server CoconutEcommerce
+
 const BASE_URL = "http://localhost:8000/products";
 
 export async function fetchProducts() {
@@ -33,6 +34,18 @@ export async function searchProducts(query: string) {
     return await response.json();
   } catch (error) {
     console.error("Lỗi khi search products:", error);
+    return null;
+  }
+}
+
+// Tìm sản phẩm theo category name
+export async function searchProductsByCategory(categoryName: string) {
+  try {
+    const response = await fetch(`${BASE_URL}/search?query=${encodeURIComponent(categoryName)}`);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.error("Lỗi khi search products by category:", error);
     return null;
   }
 }
