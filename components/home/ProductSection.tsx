@@ -29,7 +29,7 @@ const ProductSection = ({ title, selectedCategory, excludeSlug }: Props) => {
       let data;
       if (selectedCategory) {
         // Nếu có selectedCategory thì fetch theo category
-        data = await import("../../service/ProductService").then(mod => mod.searchProductsByCategory(selectedCategory as string));
+        data = await import("../../service/ProductService").then(mod => mod.getProductsByCategory(selectedCategory as string));
       } else {
         data = await fetchProducts();
       }

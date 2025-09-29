@@ -39,7 +39,7 @@ const ProductPage = () => {
     async function fetchRelated() {
       if (productDetail?.category) {
         setLoadingRelated(true);
-        const data = await import("@/service/ProductService").then(mod => mod.searchProductsByCategory(productDetail.category));
+        const data = await import("@/service/ProductService").then(mod => mod.getProductsByCategory(productDetail.category));
         // Loại trừ sản phẩm đang xem
         setRelatedProducts((data || []).filter((p: any) => p.slug !== slug));
         setLoadingRelated(false);
