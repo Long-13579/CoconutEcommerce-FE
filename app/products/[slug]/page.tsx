@@ -1,5 +1,8 @@
+"use client";
 import ProductSection from "@/components/home/ProductSection";
+import ProductCard from "@/components/home/ProductCard";
 import ProductInfo from "@/components/productDetail/ProductInfo";
+import { useParams } from "next/navigation";
 import RatingProgressBar from "@/components/productDetail/RatingProgressBar";
 import ReviewCardContainer from "@/components/productDetail/ReviewCardContainer";
 import ReviewForm from "@/components/productDetail/ReviewForm";
@@ -8,9 +11,46 @@ import { Star } from "lucide-react";
 import React from "react";
 
 const ProductPage = () => {
+  const params = useParams();
+  // Sửa lấy slug cho chắc chắn, tránh undefined
+  let slug = "";
+  if (typeof params === "string") {
+    slug = params;
+  } else if (params && typeof params.slug === "string") {
+    slug = params.slug;
+  } else if (params && Array.isArray(params.slug) && params.slug.length > 0) {
+    slug = params.slug[0];
+  }
+
+  const [productDetail, setProductDetail] = React.useState<any>(null);
+  React.useEffect(() => {
+    async function loadProduct() {
+      const res = await fetch(`http://localhost:8000/products/${slug}`);
+      const data = await res.json();
+      setProductDetail(data);
+    }
+    loadProduct();
+  }, [slug]);
+
+  const [relatedProducts, setRelatedProducts] = React.useState<any[]>([]);
+  const [loadingRelated, setLoadingRelated] = React.useState(false);
+
+  React.useEffect(() => {
+    async function fetchRelated() {
+      if (productDetail?.category) {
+        setLoadingRelated(true);
+        const data = await import("@/service/ProductService").then(mod => mod.getProductsByCategory(productDetail.category));
+        // Loại trừ sản phẩm đang xem
+        setRelatedProducts((data || []).filter((p: any) => p.slug !== slug));
+        setLoadingRelated(false);
+      }
+    }
+    fetchRelated();
+  }, [productDetail, slug]);
+
   return (
     <>
-      <ProductInfo />
+      <ProductInfo slug={slug} />
 
       <div className="main-max-width padding-x mx-auto">
         <h3 className="font-semibold text-xl text-center my-6 text-gray-800">
@@ -59,7 +99,21 @@ const ProductPage = () => {
       </div>
 
       <ReviewCardContainer />
-      <ProductSection title="Products from the same category" />
+      {/* Hiển thị sản phẩm cùng category, loại trừ sản phẩm đang xem */}
+      <section id="product_section" className="main-max-width padding-x mx-auto my-16">
+        <h2 className="my-9 text-center text-xl font-bold text-gray-800">
+          Products from the same category
+        </h2>
+        {loadingRelated ? (
+          <div>Đang tải sản phẩm...</div>
+        ) : (
+          <div className="flex-center flex-wrap gap-4">
+            {relatedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
+      </section>
     </>
   );
 };

@@ -16,37 +16,33 @@ interface Product {
 interface Props {
   title: string;
   selectedCategory?: string | null;
+  excludeSlug?: string;
 }
 
-const ProductSection = ({ title, selectedCategory }: Props) => {
+const ProductSection = ({ title, selectedCategory, excludeSlug }: Props) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
     async function loadProducts() {
-      const data = await fetchProducts();
+      let data;
+      if (selectedCategory) {
+        // Nếu có selectedCategory thì fetch theo category
+        data = await import("../../service/ProductService").then(mod => mod.getProductsByCategory(selectedCategory as string));
+      } else {
+        data = await fetchProducts();
+      }
       setProducts(data || []);
       setLoading(false);
     }
     loadProducts();
-  interval = setInterval(loadProducts, 2000); // fetch lại mỗi 2 giây
+    interval = setInterval(loadProducts, 2000); // fetch lại mỗi 2 giây
     return () => clearInterval(interval);
-  }, []);
+  }, [selectedCategory]);
 
-  // Nếu có selectedCategory, lọc theo category (giả sử product có trường category)
-  // Giả sử selectedCategory là category id hoặc name, ưu tiên id nếu có
-  const filteredList = selectedCategory
-    ? products.filter((p) => {
-        if (p.category_id && typeof selectedCategory === "number") {
-          return p.category_id === selectedCategory;
-        }
-        if (p.category && typeof selectedCategory === "string") {
-          return p.category === selectedCategory;
-        }
-        return true;
-      })
-    : products;
+  // Loại trừ sản phẩm đang xem
+  const filteredList = products.filter((p) => (excludeSlug ? p.slug !== excludeSlug : true));
 
   if (loading) return <div>Đang tải sản phẩm...</div>;
   return (

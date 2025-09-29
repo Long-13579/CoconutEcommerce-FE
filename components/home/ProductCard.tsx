@@ -8,23 +8,26 @@ interface ProductCardProps {
     name: string;
     slug: string;
     image: string;
+    photo?: string;
     price: string | number;
   };
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const router = useRouter();
-  // Debug giá tiền truyền vào
+  // Debug dữ liệu truyền vào
+  console.log('ProductCard data:', product);
   console.log('ProductCard price:', product.price);
     // Hiển thị giá tiền đúng kiểu $9.00
     const priceValue = typeof product.price === "string" ? parseFloat(product.price) : product.price;
     const priceDisplay = priceValue ? `$${priceValue.toFixed(2)}` : "$0.00";
-  // Xử lý hình ảnh: nếu là đường dẫn tương đối, ghép với domain backend
+  // Xử lý hình ảnh: ưu tiên product.photo, nếu không có thì lấy product.image
   let imageSrc = "/default.jpg";
-  if (product.image) {
-    imageSrc = product.image.startsWith("http")
-      ? product.image
-      : `http://localhost:8000${product.image}`;
+  const img = product.photo || product.image;
+  if (img) {
+    imageSrc = img.startsWith("http")
+      ? img
+      : `http://localhost:8000${img}`;
   }
   return (
     <div
