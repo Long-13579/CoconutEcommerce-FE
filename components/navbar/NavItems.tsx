@@ -30,6 +30,8 @@ const NavItems = ({mobile}: Props) => {
       </Link>
 
       <button className="nav-btn">Logout</button>
+      <Link href="/signin" className="nav-btn">Login</Link>
+      
       <button className="nav-btn">Login</button>
 
       <Link href="/cart" className="relative flex items-center h-[60px] w-[60px] justify-center cursor-pointer">
