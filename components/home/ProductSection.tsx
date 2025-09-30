@@ -17,9 +17,10 @@ interface Props {
   title: string;
   selectedCategory?: string | null;
   excludeSlug?: string;
+  searchResults?: any[] | null;
 }
 
-const ProductSection = ({ title, selectedCategory, excludeSlug }: Props) => {
+const ProductSection = ({ title, selectedCategory, excludeSlug, searchResults }: Props) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -28,7 +29,6 @@ const ProductSection = ({ title, selectedCategory, excludeSlug }: Props) => {
     async function loadProducts() {
       let data;
       if (selectedCategory) {
-        // Nếu có selectedCategory thì fetch theo category
         data = await import("../../service/ProductService").then(mod => mod.getProductsByCategory(selectedCategory as string));
       } else {
         data = await fetchProducts();
@@ -37,14 +37,15 @@ const ProductSection = ({ title, selectedCategory, excludeSlug }: Props) => {
       setLoading(false);
     }
     loadProducts();
-    interval = setInterval(loadProducts, 2000); // fetch lại mỗi 2 giây
+    interval = setInterval(loadProducts, 2000);
     return () => clearInterval(interval);
   }, [selectedCategory]);
 
-  // Loại trừ sản phẩm đang xem
-  const filteredList = products.filter((p) => (excludeSlug ? p.slug !== excludeSlug : true));
+  // Nếu có kết quả tìm kiếm thì ưu tiên hiển thị
+  const displayList = searchResults && searchResults.length > 0 ? searchResults : products;
+  const filteredList = displayList.filter((p) => (excludeSlug ? p.slug !== excludeSlug : true));
 
-  if (loading) return <div>Đang tải sản phẩm...</div>;
+  if (loading && (!searchResults || searchResults.length === 0)) return <div>Đang tải sản phẩm...</div>;
   return (
     <section id="product_section" className="main-max-width padding-x mx-auto my-16">
       <h2 className="my-9 text-center text-xl font-bold text-gray-800">

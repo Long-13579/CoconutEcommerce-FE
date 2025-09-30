@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Button from "../uiComponents/Button";
 
 interface ProductCardProps {
   product: {
@@ -32,11 +33,33 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div
       className="w-[220px] h-[320px] bg-white rounded-2xl flex flex-col items-center justify-center p-4 shadow-lg transition-transform duration-200 hover:scale-105 cursor-pointer"
-      onClick={() => router.push(`/products/${product.slug}`)}
     >
-      <Image src={imageSrc} alt={product.name} width={120} height={120} />
-      <p className="font-semibold mt-3 text-gray-800">{product.name}</p>
+      <div onClick={() => router.push(`/products/${product.slug}`)} style={{ width: '100%' }} className="flex flex-col items-center justify-center">
+        <Image src={imageSrc} alt={product.name} width={120} height={120} />
+        <p className="font-semibold mt-3 text-gray-800">{product.name}</p>
         <p className="text-blue-600 font-bold mt-2">{priceDisplay}</p>
+      </div>
+      <Button
+        className="mt-4 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800"
+        onClick={async (e) => {
+          e.stopPropagation();
+          const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+          if (!token) {
+            alert("You must be logged in to buy.");
+            return;
+          }
+          const CartService = await import("@/service/CartService");
+          const result = await CartService.addToCart(product.id, token);
+          if (result) {
+            alert("Item added to cart successfully!");
+            window.dispatchEvent(new Event("user-login"));
+          } else {
+            alert("Failed to add item to cart.");
+          }
+        }}
+      >
+        Buy Now
+      </Button>
     </div>
   );
 };

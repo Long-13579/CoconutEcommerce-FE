@@ -52,10 +52,29 @@ const ProductInfo = ({ slug }: { slug: string }) => {
 
         {/* Buttons */}
   <div className='flex py-3 items-center gap-4 flex-wrap'>
-          <Button className="default-btn">
-            Add to Cart
-          </Button>
-        </div>
+    <Button
+      className="default-btn"
+      onClick={async () => {
+        const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+        const userId = typeof window !== "undefined" ? localStorage.getItem("user_id") : null;
+        if (!token || !userId) {
+          alert("You must be logged in to add items to cart.");
+          return;
+        }
+        const CartService = await import("@/service/CartService");
+        const result = await CartService.addToCart(product.id, token);
+        if (result) {
+          alert("Item added to cart successfully!");
+          // Gửi event để NavItems cập nhật số lượng
+          window.dispatchEvent(new Event("user-login"));
+        } else {
+          alert("Failed to add item to cart.");
+        }
+      }}
+    >
+      Add to Cart
+    </Button>
+  </div>
       </div>
     </div>
   );

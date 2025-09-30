@@ -37,9 +37,9 @@ const ProductPage = () => {
 
   React.useEffect(() => {
     async function fetchRelated() {
-      if (productDetail?.category) {
+      if (productDetail?.category_name) {
         setLoadingRelated(true);
-        const data = await import("@/service/ProductService").then(mod => mod.getProductsByCategory(productDetail.category));
+        const data = await import("@/service/ProductService").then(mod => mod.getProductsByCategory(productDetail.category_name));
         // Loại trừ sản phẩm đang xem
         setRelatedProducts((data || []).filter((p: any) => p.slug !== slug));
         setLoadingRelated(false);
