@@ -4,6 +4,7 @@ const BASE_URL = "http://localhost:8000/users";
 export async function createUser(userData: {
   username: string;
   email: string;
+  password: string;
   first_name?: string;
   last_name?: string;
   profile_picture_url?: string;

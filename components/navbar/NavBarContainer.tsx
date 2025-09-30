@@ -1,12 +1,16 @@
-import React from 'react'
-import NavBar from './NavBar'
+import React from 'react';
+import NavBar from './NavBar';
 
-const NavBarContainer = () => {
-  return (
-    <nav className="bg-[whitesmoke] sticky top-0 z-20 w-full py-4">
-        <NavBar />
-    </nav>
-  )
+interface NavBarContainerProps {
+  onSearch?: (results: any[]) => void;
 }
 
-export default NavBarContainer
+const NavBarContainer = ({ onSearch }: NavBarContainerProps) => {
+  return (
+    <nav className="bg-[whitesmoke] sticky top-0 z-20 w-full py-4">
+      <NavBar onSearch={onSearch} />
+    </nav>
+  );
+};
+
+export default NavBarContainer;
