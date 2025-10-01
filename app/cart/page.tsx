@@ -118,7 +118,7 @@ const CartPage = () => {
           </div>
         </div>
         {/* Cartitem */}
-        <CartSummary cartItems={cartItems} />
+  <CartSummary cartItems={cartItems} token={token || undefined} />
       </div>
     </div>
   );

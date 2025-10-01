@@ -3,12 +3,22 @@ import Button from '../uiComponents/Button';
 
 interface Props {
   cartItems: Array<{ price: number; quantity: number }>;
+  token?: string;
 }
 
-const CartSummary = ({ cartItems }: Props) => {
+import { getPaymentLink } from "@/service/PaymentService";
+
+const CartSummary = ({ cartItems, token }: Props) => {
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const discount = subtotal * 0.05; // 5% discount
   const total = subtotal - discount;
+  const handleCheckout = async () => {
+    if (!token) return;
+    const res = await getPaymentLink(token);
+    if (res && res.payUrl) {
+      window.location.href = res.payUrl;
+    }
+  };
   return (
     <div className="w-[400px] max-lg:w-full border border-gray-200 rounded-lg shadow-md bg-white px-8 py-6">
       <h2 className="font-semibold text-2xl text-gray-800 mb-6">Order Summary</h2>
@@ -25,7 +35,7 @@ const CartSummary = ({ cartItems }: Props) => {
         <p className="text-lg font-semibold text-gray-800">Total</p>
         <p className="text-lg font-bold text-black">${total.toFixed(2)}</p>
       </div>
-      <Button className='checkout-btn'>
+      <Button className='checkout-btn' onClick={handleCheckout}>
         Proceed to Checkout
       </Button>
     </div>
