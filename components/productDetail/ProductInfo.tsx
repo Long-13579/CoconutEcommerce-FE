@@ -10,6 +10,7 @@ interface ProductDetail {
   slug: string;
   image: string;
   price: string | number;
+  discount_percent?: number;
 }
 
 const ProductInfo = ({ slug }: { slug: string }) => {
@@ -39,7 +40,31 @@ const ProductInfo = ({ slug }: { slug: string }) => {
       <div className="flex flex-1 flex-col gap-6 max-w-[500px] max-md:w-full">
         <div className="flex flex-col gap-3">
           <h1 className="text-3xl font-bold">{product.name}</h1>
-          <h3 className="text-2xl font-semibold text-black">${typeof product.price === 'string' ? parseFloat(product.price).toFixed(2) : product.price.toFixed(2)}</h3>
+          {product.discount_percent && product.discount_percent > 0 ? (
+            <>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-gray-500 line-through">
+                  ${typeof product.price === 'string' ? parseFloat(product.price).toFixed(2) : product.price.toFixed(2)}
+                </span>
+                <span className="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded">
+                  -{product.discount_percent}%
+                </span>
+              </div>
+              <div className="text-blue-600 font-bold text-2xl mt-1">
+                ${
+                  (() => {
+                    const priceValue = typeof product.price === 'string' ? parseFloat(product.price) : product.price;
+                    const discounted = priceValue * (1 - (product.discount_percent || 0) / 100);
+                    return discounted.toFixed(2);
+                  })()
+                }
+              </div>
+            </>
+          ) : (
+            <h3 className="text-2xl font-semibold text-black">
+              ${typeof product.price === 'string' ? parseFloat(product.price).toFixed(2) : product.price.toFixed(2)}
+            </h3>
+          )}
         </div>
 
         {/* Product Details */}
@@ -56,8 +81,7 @@ const ProductInfo = ({ slug }: { slug: string }) => {
       className="default-btn"
       onClick={async () => {
         const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-        const userId = typeof window !== "undefined" ? localStorage.getItem("user_id") : null;
-        if (!token || !userId) {
+        if (!token) {
           alert("You must be logged in to add items to cart.");
           return;
         }

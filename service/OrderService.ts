@@ -1,9 +1,15 @@
 // Service fetch dữ liệu order từ server CoconutEcommerce
 const BASE_URL = "http://localhost:8000/order";
 
-export async function getOrders(email: string) {
+export async function getOrders(token: string) {
   try {
-    const response = await fetch(`${BASE_URL}/get_orders?email=${encodeURIComponent(email)}`);
+    const response = await fetch(`${BASE_URL}/get_orders`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     // Trả về mảng các order
     return await response.json();

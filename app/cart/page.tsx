@@ -20,11 +20,16 @@ const CartPage = () => {
               if (imageUrl && !imageUrl.startsWith("http")) {
                 imageUrl = `http://localhost:8000${imageUrl}`;
               }
+              const price = parseFloat(item.product?.price);
+              const discount_percent = item.product?.discount_percent || 0;
+              const discountedPrice = discount_percent > 0 ? price * (1 - discount_percent / 100) : price;
               return {
                 id: item.id,
                 name: item.product?.name,
                 image: imageUrl,
-                price: parseFloat(item.product?.price),
+                price: discountedPrice,
+                originalPrice: price,
+                discount_percent,
                 quantity: item.quantity,
               };
             })
@@ -49,11 +54,16 @@ const CartPage = () => {
               if (imageUrl && !imageUrl.startsWith("http")) {
                 imageUrl = `http://localhost:8000${imageUrl}`;
               }
+              const price = parseFloat(item.product?.price);
+              const discount_percent = item.product?.discount_percent || 0;
+              const discountedPrice = discount_percent > 0 ? price * (1 - discount_percent / 100) : price;
               return {
                 id: item.id,
                 name: item.product?.name,
                 image: imageUrl,
-                price: parseFloat(item.product?.price),
+                price: discountedPrice,
+                originalPrice: price,
+                discount_percent,
                 quantity: item.quantity,
               };
             })
@@ -76,11 +86,16 @@ const CartPage = () => {
               if (imageUrl && !imageUrl.startsWith("http")) {
                 imageUrl = `http://localhost:8000${imageUrl}`;
               }
+              const price = parseFloat(item.product?.price);
+              const discount_percent = item.product?.discount_percent || 0;
+              const discountedPrice = discount_percent > 0 ? price * (1 - discount_percent / 100) : price;
               return {
                 id: item.id,
                 name: item.product?.name,
                 image: imageUrl,
-                price: parseFloat(item.product?.price),
+                price: discountedPrice,
+                originalPrice: price,
+                discount_percent,
                 quantity: item.quantity,
               };
             })
@@ -107,6 +122,8 @@ const CartPage = () => {
                   name={item.name}
                   image={item.image}
                   price={item.price}
+                  originalPrice={item.originalPrice}
+                  discount_percent={item.discount_percent}
                   quantity={item.quantity}
                   onUpdateQuantity={handleUpdateQuantity}
                   onDeleteItem={handleDeleteItem}
