@@ -10,8 +10,7 @@ import { getPaymentLink } from "@/service/PaymentService";
 
 const CartSummary = ({ cartItems, token }: Props) => {
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const discount = subtotal * 0.05; // 5% discount
-  const total = subtotal - discount;
+  const total = subtotal;
   const handleCheckout = async () => {
     if (!token) return;
     const res = await getPaymentLink(token);
@@ -26,10 +25,7 @@ const CartSummary = ({ cartItems, token }: Props) => {
         <p className="text-gray-600 font-medium">Subtotal</p>
         <p className="text-gray-800 font-semibold">${subtotal.toFixed(2)}</p>
       </div>
-      <div className="w-full flex items-center justify-between py-2">
-        <p className="text-gray-500 font-medium">Discount</p>
-        <p className="text-green-700 font-semibold">-${discount.toFixed(2)}</p>
-      </div>
+      {/* Discount removed as requested */}
       <hr className="my-4 border-gray-300" />
       <div className="w-full flex items-center justify-between py-2">
         <p className="text-lg font-semibold text-gray-800">Total</p>

@@ -11,6 +11,7 @@ interface ProductCardProps {
     image: string;
     photo?: string;
     price: string | number;
+    discount_percent?: number;
   };
 }
 
@@ -21,7 +22,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
   console.log('ProductCard price:', product.price);
     // Hiển thị giá tiền đúng kiểu $9.00
     const priceValue = typeof product.price === "string" ? parseFloat(product.price) : product.price;
+    let discountPercent = product.discount_percent || 0;
+    let discountedPrice = priceValue;
+    if (discountPercent > 0) {
+      discountedPrice = priceValue * (1 - discountPercent / 100);
+    }
     const priceDisplay = priceValue ? `$${priceValue.toFixed(2)}` : "$0.00";
+    const discountedPriceDisplay = `$${discountedPrice.toFixed(2)}`;
   // Xử lý hình ảnh: ưu tiên product.photo, nếu không có thì lấy product.image
   let imageSrc = "/default.jpg";
   const img = product.photo || product.image;
@@ -37,7 +44,17 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <div onClick={() => router.push(`/products/${product.slug}`)} style={{ width: '100%' }} className="flex flex-col items-center justify-center">
         <Image src={imageSrc} alt={product.name} width={120} height={120} />
         <p className="font-semibold mt-3 text-gray-800">{product.name}</p>
-        <p className="text-blue-600 font-bold mt-2">{priceDisplay}</p>
+        {discountPercent > 0 ? (
+          <>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="text-gray-500 line-through">{priceDisplay}</span>
+              <span className="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded">-{discountPercent}%</span>
+            </div>
+            <div className="text-blue-600 font-bold text-lg mt-1">{discountedPriceDisplay}</div>
+          </>
+        ) : (
+          <p className="text-blue-600 font-bold mt-2">{priceDisplay}</p>
+        )}
       </div>
       <Button
         className="mt-4 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800"

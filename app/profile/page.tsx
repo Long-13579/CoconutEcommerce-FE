@@ -119,12 +119,6 @@ const ProfilePage = () => {
             <div className="text-gray-500">Loading user info...</div>
           )}
         </div>
-        <div className="w-full max-w-2xl bg-white rounded-xl shadow-lg p-6 mt-6">
-          <h3 className="text-2xl font-bold text-blue-700 mb-4 flex items-center gap-2">
-            <span>📦</span> Your Orders
-          </h3>
-          <OrderContainer />
-        </div>
       </div>
     </div>
   );
