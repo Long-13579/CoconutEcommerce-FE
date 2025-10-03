@@ -1,5 +1,5 @@
 // Service fetch dữ liệu category từ server CoconutEcommerce
-const BASE_URL = "http://localhost:8000/categories";
+const BASE_URL = "http://localhost:8000/api/categories";
 
 export async function fetchCategories() {
   try {
