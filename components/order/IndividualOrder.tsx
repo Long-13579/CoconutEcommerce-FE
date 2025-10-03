@@ -25,7 +25,7 @@ const IndividualOrder = ({ order }: IndividualOrderProps) => {
         <p className="text-sm sm:text-base font-medium text-gray-800 max-sm:hidden">
           ORDER ID:{' '}
           <span className="text-green-600 font-semibold">
-            {order.stripe_checkout_id || order.id || 'N/A'}
+            {order.checkout_id || order.id || 'N/A'}
           </span>
         </p>
         <small className="text-gray-500 text-xs sm:text-sm">{formatDate(orderDate)}</small>
