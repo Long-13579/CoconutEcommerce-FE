@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Link from "next/link";
+import { SearchContext } from "@/context/SearchContext";
 import SearchForm from "./SearchForm";
 import NavItems from "./NavItems";
 import MobileNavbar from "./MobileNavbar";
@@ -19,10 +20,11 @@ const NavBar = ({ onSearch }: NavBarProps) => {
     setShowSearchForm((curr) => !curr);
   };
 
+  const { setSearchResults } = useContext(SearchContext);
   return (
     <>
       <div className="flex justify-between items-center main-max-width mx-auto padding-x">
-        <Link href="/">
+        <Link href="/" onClick={() => setSearchResults(null)}>
           <h1 className="text-2xl font-extrabold text-gray-900">Cocoverse</h1>
         </Link>
 

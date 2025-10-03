@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8000/order";
+const BASE_URL = "http://localhost:8000/api/order";
 
 // Get Payment Link
 export async function getPaymentLink(token: string) {

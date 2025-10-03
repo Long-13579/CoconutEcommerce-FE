@@ -1,5 +1,5 @@
 
-const BASE_URL = "http://localhost:8000/carts";
+const BASE_URL = "http://localhost:8000/api/carts";
 
 // Hành động 1: Add to cart
 export async function addToCart(product_id: number, token: string) {

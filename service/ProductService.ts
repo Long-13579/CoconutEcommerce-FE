@@ -1,6 +1,6 @@
 // Service fetch dữ liệu product từ server CoconutEcommerce
 
-const BASE_URL = "http://localhost:8000/products";
+const BASE_URL = "http://localhost:8000/api/products";
 
 export async function fetchProducts() {
   try {

@@ -1,5 +1,5 @@
 // Service fetch dữ liệu user từ server CoconutEcommerce
-const BASE_URL = "http://localhost:8000/users";
+const BASE_URL = "http://localhost:8000/api/users";
 
 export async function createUser(userData: {
   username: string;

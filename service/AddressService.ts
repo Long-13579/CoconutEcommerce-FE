@@ -1,7 +1,7 @@
 // Cập nhật username cho user
 export async function updateUsername(email: string, newUsername: string): Promise<boolean> {
   try {
-    const response = await fetch(`http://localhost:8000/users/update_username/`, {
+    const response = await fetch(`http://localhost:8000/api/users/update_username/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, new_username: newUsername })
@@ -14,7 +14,7 @@ export async function updateUsername(email: string, newUsername: string): Promis
 }
 // AddressService: lấy dữ liệu address từ server
 
-const BASE_URL = "http://localhost:8000/users";
+const BASE_URL = "http://localhost:8000/api/users";
 
 export interface Address {
   street: string;
