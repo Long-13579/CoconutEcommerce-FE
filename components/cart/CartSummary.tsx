@@ -7,12 +7,24 @@ interface Props {
 }
 
 import { getPaymentLink } from "@/service/PaymentService";
+import { getAddressByEmail } from "@/service/AddressService";
 
 const CartSummary = ({ cartItems, token }: Props) => {
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const total = subtotal;
   const handleCheckout = async () => {
     if (!token) return;
+    // Lấy email từ localStorage (giả định đã lưu khi login)
+    const email = typeof window !== "undefined" ? localStorage.getItem("email") : null;
+    if (!email) {
+      alert("Please login again to proceed to checkout.");
+      return;
+    }
+    const address = await getAddressByEmail(email);
+    if (!address || !address.street || !address.city || !address.state || !address.phone) {
+      alert("Please add your shipping address before checkout.");
+      return;
+    }
     const res = await getPaymentLink(token);
     if (res && res.payUrl) {
       window.location.href = res.payUrl;
