@@ -84,7 +84,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           {/* Button section */}
           <div className="mt-auto pt-2 flex justify-center">
             <Button
-              className="bg-black text-white px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-gray-800 w-[80px] whitespace-nowrap"
+              className="bg-black text-white px-3 py-1.5 rounded-md text-sm hover:bg-gray-800 w-[80px] whitespace-nowrap"
               onClick={handleProductClick}
             >
               Buy Now
