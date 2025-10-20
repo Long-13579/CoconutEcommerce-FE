@@ -25,7 +25,7 @@ const ProductPage = () => {
   const [productDetail, setProductDetail] = React.useState<any>(null);
   React.useEffect(() => {
     async function loadProduct() {
-      const res = await fetch(`http://localhost:8000/products/${slug}`);
+      const res = await fetch(`http://localhost:8000/api/products/${slug}`);
       const data = await res.json();
       setProductDetail(data);
     }
