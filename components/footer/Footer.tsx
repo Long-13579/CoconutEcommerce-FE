@@ -50,12 +50,19 @@ const Footer = () => {
 
       {/* Social Media */}
       <div className="flex justify-center items-center gap-6 mt-10">
-        <FaLinkedin className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
-        <FaFacebookF className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
-        <BsTwitterX className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
-        <FaYoutube className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
+        <a href="https://www.facebook.com/namle10102003/" target="_blank" rel="noopener noreferrer">
+          <FaLinkedin className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
+        </a>
+        <a href="https://www.facebook.com/namle10102003/" target="_blank" rel="noopener noreferrer">
+          <FaFacebookF className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
+        </a>
+        <a href="https://www.facebook.com/namle10102003/" target="_blank" rel="noopener noreferrer">
+          <BsTwitterX className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
+        </a>
+        <a href="https://www.facebook.com/namle10102003/" target="_blank" rel="noopener noreferrer">
+          <FaYoutube className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
+        </a>
         {/* <ContactLinks /> */}
-        
       </div>
 
       {/* Copyright */}
