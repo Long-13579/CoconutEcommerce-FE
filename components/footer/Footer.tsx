@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaLinkedin, FaFacebookF, FaYoutube } from "react-icons/fa";
 import { BsTwitterX } from "react-icons/bs";
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -18,17 +19,21 @@ const Footer = () => {
         <div className="flex flex-col gap-5">
           <h2 className="text-lg font-semibold">Quick Links</h2>
           <ul className="text-gray-400 space-y-3">
-          
-
-            <li className="hover:text-white transition">Home</li>
-            <li className="hover:text-white transition">
-              Shop Coconut Bowls
+            <li className="hover:text-white transition cursor-pointer">
+              <a href="/" onClick={() => window.location.reload()}>Home</a>
             </li>
-            <li className="hover:text-white transition">
-              Shop Coconut Snacks
+            <li className="hover:text-white transition cursor-pointer">
+              <a href="/categories/coconut-bowls">Shop Coconut Bowls</a>
             </li>
-            <li className="hover:text-white transition">Best Sellers</li>
-            <li className="hover:text-white transition">Contact Us</li>
+            <li className="hover:text-white transition cursor-pointer">
+              <a href="/categories/coconut-snacks">Shop Coconut Snacks</a>
+            </li>
+            <li className="hover:text-white transition cursor-pointer">
+              <a href="/best-sellers">Best Sellers</a>
+            </li>
+            <li className="hover:text-white transition cursor-pointer">
+              <a href="/contact">Contact Us</a>
+            </li>
           </ul>
         </div>
 
@@ -36,26 +41,42 @@ const Footer = () => {
         <div className="flex flex-col gap-5">
           <h2 className="text-lg font-semibold">Categories</h2>
           <ul className="text-gray-400 space-y-3">
-            
-            
-            <li className="hover:text-white transition">Shipping Information</li>
-            <li className="hover:text-white transition">Returns & Refunds</li>
-            <li className="hover:text-white transition">Warranty Policy</li>
-            <li className="hover:text-white transition">FAQ</li>
-            <li className="hover:text-white transition">Track Order</li>
-            <li className="hover:text-white transition">Contact Support</li>
+            <li className="hover:text-white transition cursor-pointer">
+              <a href="/shipping">Shipping Information</a>
+            </li>
+            <li className="hover:text-white transition cursor-pointer">
+              <a href="/returns">Returns & Refunds</a>
+            </li>
+            <li className="hover:text-white transition cursor-pointer">
+              <a href="/warranty">Warranty Policy</a>
+            </li>
+            <li className="hover:text-white transition cursor-pointer">
+              <a href="/faq">FAQ</a>
+            </li>
+            <li className="hover:text-white transition cursor-pointer">
+              <a href="/track-order">Track Order</a>
+            </li>
+            <li className="hover:text-white transition cursor-pointer">
+              <a href="/support">Contact Support</a>
+            </li>
           </ul>
         </div>
       </div>
 
       {/* Social Media */}
       <div className="flex justify-center items-center gap-6 mt-10">
-        <FaLinkedin className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
-        <FaFacebookF className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
-        <BsTwitterX className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
-        <FaYoutube className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
-        {/* <ContactLinks /> */}
-        
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+          <FaLinkedin className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
+        </a>
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+          <FaFacebookF className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
+        </a>
+        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+          <BsTwitterX className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
+        </a>
+        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
+          <FaYoutube className="text-2xl text-gray-400 hover:text-white transition cursor-pointer" />
+        </a>
       </div>
 
       {/* Copyright */}
